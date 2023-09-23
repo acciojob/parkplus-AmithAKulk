@@ -1,25 +1,32 @@
 package com.driver.model;
 
-import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name="user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
 
     private String phoneNumber;
 
     private String password;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
+    public User(String name, String phoneNumber, String password) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
+    public User() {
+    }
 
     public int getId() {
         return id;
@@ -61,14 +68,6 @@ public class User {
         this.reservationList = reservationList;
     }
 
-    public User() {
-    }
-
-    public User(int id, String name, String phoneNumber, String password, List<Reservation> reservationList) {
-        this.id = id;
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-        this.reservationList = reservationList;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Reservation> reservationList=new ArrayList<>();
 }

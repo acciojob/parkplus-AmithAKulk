@@ -1,29 +1,21 @@
 package com.driver.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name="reservation")
 public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int id;
+    private int id;
 
     private int numberOfHours;
 
-    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
-    private Payment payment;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn
-    private Spot spot;
-
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnore
-    private User user;
+    public Reservation(int numberOfHours) {
+        this.numberOfHours = numberOfHours;
+    }
 
     public Reservation() {
     }
@@ -44,20 +36,20 @@ public class Reservation {
         this.numberOfHours = numberOfHours;
     }
 
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
     public Spot getSpot() {
         return spot;
     }
 
     public void setSpot(Spot spot) {
         this.spot = spot;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public User getUser() {
@@ -68,11 +60,15 @@ public class Reservation {
         this.user = user;
     }
 
-    public Reservation(Integer timeInHours, User user, Spot requiredSpot) {
-        this.numberOfHours=timeInHours;
-        this.user=user;
-        this.spot=requiredSpot;
-    }
+    @ManyToOne
+    @JoinColumn
+    private Spot spot;
 
 
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private Payment payment;
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
 }

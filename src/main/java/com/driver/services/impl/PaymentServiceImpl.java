@@ -10,8 +10,6 @@ import com.driver.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
-
 @Service
 public class PaymentServiceImpl implements PaymentService {
     @Autowired
@@ -21,23 +19,44 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment pay(Integer reservationId, int amountSent, String mode) throws Exception {
-        Reservation reservation=reservationRepository2.findById(reservationId).get();
-        Spot spot=reservation.getSpot();
-        int bill=reservation.getNumberOfHours()*spot.getPricePerHour();
-        if(mode.equalsIgnoreCase("cash")||mode.equalsIgnoreCase("upi")||mode.equalsIgnoreCase("card")){
-            Payment payment=new Payment();
-            if(mode.equalsIgnoreCase("cash")){
-                payment.setPaymentMode(PaymentMode.CASH);
-            }else if(mode.equalsIgnoreCase("upi"))
-                payment.setPaymentMode(PaymentMode.UPI);
-            else
-                payment.setPaymentMode(PaymentMode.CARD);
-            payment.setPaymentCompleted(true);
-            payment.setReservation(reservation);
-            reservation.setPayment(payment);
-            reservationRepository2.save(reservation);
-            return payment;
+        Reservation reservation = reservationRepository2.findById(reservationId).get();
+        Spot spot = reservation.getSpot();
+        int bill = reservation.getNumberOfHours()*spot.getPricePerHour();
+        if(bill>amountSent){
+            throw new Exception("Insufficient Amount");
         }
-        else throw new Exception("Payment mode not detected");
+
+        //PaymentMode[] modes = PaymentMode.values();
+        boolean check = false;
+        //for(PaymentMode mode1: modes){
+        //String compMode = mode.toUpperCase();
+        if(mode.equalsIgnoreCase("cash") || mode.equalsIgnoreCase("card") || mode.equalsIgnoreCase("upi")){
+            check = true;
+        }
+        //}
+        if(!check){
+            throw new Exception("Payment mode not detected");
+        }
+
+
+        Payment payment = new Payment();
+        //payment.setPaymentMode(PaymentMode.valueOf(mode));
+
+        if(mode.equalsIgnoreCase("cash")){
+            payment.setPaymentMode(PaymentMode.CASH);
+        }
+        else if(mode.equalsIgnoreCase("card")){
+            payment.setPaymentMode(PaymentMode.CARD);
+        }
+        else if(mode.equalsIgnoreCase("upi")){
+            payment.setPaymentMode(PaymentMode.UPI);
+        }
+
+        payment.setPaymentCompleted(true);
+
+        reservation.setPayment(payment);
+
+        reservationRepository2.save(reservation);
+        return payment;
     }
 }
