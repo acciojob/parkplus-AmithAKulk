@@ -1,17 +1,12 @@
-package com.driver.repository;
+package com.driver.model;
 
-import com.driver.repository.Reservation;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;import java.util.ArrayList;import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User {
-
+public class User
+{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
@@ -20,17 +15,18 @@ public class User {
 
     private String password;
 
-    public User(String name, String phoneNumber, String password) {
+    public User(int id, String name, String phoneNumber, String password) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<Reservation> reservationList = new ArrayList<>();
 
-    public User() {
-    }
+    public User() {}
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
+
 
     public int getId() {
         return id;

@@ -1,32 +1,29 @@
-package com.driver.repository;
+package com.driver.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;import java.util.ArrayList;import java.util.List;
 
 @Entity
-public class ParkingLot {
-
+public class ParkingLot
+{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private String name;
 
     private String address;
 
-
-    public ParkingLot(String name, String address) {
-        this.name = name;
-        this.address = address;
-    }
-
-    public ParkingLot() {
-    }
-
     @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
-    private List<Spot> spotList=new ArrayList<>();
+    List<Spot> spotList = new ArrayList<>();
 
+
+    public ParkingLot() {}
+
+    public ParkingLot(int id, String name, String address) {
+        this.id=id;
+        this.name=name;
+        this.address=address;
+    }
 
     public int getId() {
         return id;

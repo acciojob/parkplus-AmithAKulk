@@ -1,49 +1,37 @@
-package com.driver.repository;
+package com.driver.model;
 
-import com.driver.model.SpotType;
-import com.driver.repository.ParkingLot;
-import com.driver.repository.Reservation;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;import java.util.ArrayList;import java.util.List;
 
 @Entity
-public class Spot {
-
+public class Spot
+{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Enumerated(EnumType.STRING)
     private SpotType spotType;
 
     private int pricePerHour;
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private Boolean occupied;
-
+    private boolean occupied;
     @ManyToOne
     @JoinColumn
-    private ParkingLot parkingLot;
-
-
+    ParkingLot parkingLot;
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
+    List<Reservation> reservationList=new ArrayList<>();
 
 
-    public Spot(SpotType spotType, int pricePerHour) {
-        this.spotType = spotType;
-        this.pricePerHour = pricePerHour;
-        this.occupied=false;
-    }
 
-    public Spot() {
-        this.occupied=false;
-    }
+    public Spot() {}
 
     public int getId() {
         return id;
+    }
+    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied) {
+        this.id = id;
+        this.spotType = spotType;
+        this.pricePerHour = pricePerHour;
+        this.occupied = occupied;
     }
 
     public void setId(int id) {
@@ -66,11 +54,11 @@ public class Spot {
         this.pricePerHour = pricePerHour;
     }
 
-    public Boolean getOccupied() {
+    public boolean getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(Boolean occupied) {
+    public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
 
@@ -89,4 +77,6 @@ public class Spot {
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
     }
+
+
 }
