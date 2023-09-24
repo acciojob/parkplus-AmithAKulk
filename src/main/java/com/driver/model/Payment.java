@@ -1,28 +1,32 @@
 package com.driver.model;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 import javax.persistence.*;
 
 @Entity
-public class Payment
-{
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     private boolean paymentCompleted;
 
+    @Enumerated(value = EnumType.STRING)
     private PaymentMode paymentMode;
 
-    public Payment(int id, boolean paymentCompleted, PaymentMode paymentMode) {
-        this.id = id;
-        this.paymentCompleted = paymentCompleted;
-        this.paymentMode = paymentMode;
+    @OneToOne
+    @JoinColumn
+    private Reservation reservation;
+
+    public Payment() {
     }
 
-    public Payment() {}
-
-    @OneToOne
-    @JoinColumn Reservation reservation;
+    public Payment(boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
+        this.paymentCompleted = paymentCompleted;
+        this.paymentMode = paymentMode;
+        this.reservation = reservation;
+    }
 
     public int getId() {
         return id;

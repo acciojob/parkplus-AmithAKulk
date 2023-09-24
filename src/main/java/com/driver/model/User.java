@@ -5,30 +5,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class User
-{
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private String name;
+    private  String name;
 
-    private String phoneNumber;
+    private String PhoneNumber;
 
     private String password;
 
-    public User(int id, String name, String phoneNumber, String password) {
-        this.id = id;
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Reservation> reservationList = new ArrayList<>();
+
+    public User() {
+    }
+
+    public User(String name, String phoneNumber, String password) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
+        PhoneNumber = phoneNumber;
         this.password = password;
     }
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    List<Reservation> reservationList = new ArrayList<>();
-
-    public User() {}
-
-
 
     public int getId() {
         return id;
@@ -47,11 +45,11 @@ public class User
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return PhoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        PhoneNumber = phoneNumber;
     }
 
     public String getPassword() {
