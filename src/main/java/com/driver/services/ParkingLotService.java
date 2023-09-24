@@ -1,3 +1,4 @@
+
 package com.driver.services;
 
 import com.driver.model.ParkingLot;
@@ -15,3 +16,26 @@ public interface ParkingLotService {
 
     Spot addSpot(int parkingLotId, Integer numberOfWheels, Integer pricePerHour);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

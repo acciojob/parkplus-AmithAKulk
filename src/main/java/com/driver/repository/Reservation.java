@@ -1,10 +1,8 @@
-package com.driver.model;
-
+package com.driver.repository;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="reservation")
 public class Reservation {
 
     @Id
@@ -12,6 +10,20 @@ public class Reservation {
     private int id;
 
     private int numberOfHours;
+
+
+    @ManyToOne
+    @JoinColumn
+    private User user;
+
+
+    @ManyToOne
+    @JoinColumn
+    private Spot spot;
+
+
+    @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
+    private Payment payment;
 
     public Reservation(int numberOfHours) {
         this.numberOfHours = numberOfHours;
@@ -36,6 +48,14 @@ public class Reservation {
         this.numberOfHours = numberOfHours;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Spot getSpot() {
         return spot;
     }
@@ -51,24 +71,4 @@ public class Reservation {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @ManyToOne
-    @JoinColumn
-    private Spot spot;
-
-
-    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
-    private Payment payment;
-
-    @ManyToOne
-    @JoinColumn
-    private User user;
 }

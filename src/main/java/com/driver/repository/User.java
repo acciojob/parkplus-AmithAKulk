@@ -1,12 +1,13 @@
-package com.driver.model;
+package com.driver.repository;
 
+import com.driver.repository.Reservation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="user")
+@Table(name = "users")
 public class User {
 
     @Id
@@ -27,6 +28,9 @@ public class User {
 
     public User() {
     }
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Reservation> reservationList=new ArrayList<>();
 
     public int getId() {
         return id;
@@ -67,7 +71,4 @@ public class User {
     public void setReservationList(List<Reservation> reservationList) {
         this.reservationList = reservationList;
     }
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
 }
