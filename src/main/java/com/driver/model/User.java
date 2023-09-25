@@ -1,70 +1,104 @@
 package com.driver.model;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-    private  String name;
+@Entity
+@Table
+public class User {
+
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int Id;
+
+    private String name;
 
     private String PhoneNumber;
 
-    private String password;
+    private String Password;
+
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList = new ArrayList<>();
+    private List<Reservation> ReservationList;
 
-    public User() {
-    }
-
-    public User(String name, String phoneNumber, String password) {
-        this.name = name;
-        PhoneNumber = phoneNumber;
-        this.password = password;
-    }
 
     public int getId() {
-        return id;
+        return Id;
     }
 
+
     public void setId(int id) {
-        this.id = id;
+        Id = id;
     }
+
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getPhoneNumber() {
         return PhoneNumber;
     }
 
+
     public void setPhoneNumber(String phoneNumber) {
         PhoneNumber = phoneNumber;
     }
 
+
     public String getPassword() {
-        return password;
+        return Password;
     }
+
 
     public void setPassword(String password) {
-        this.password = password;
+        Password = password;
     }
+
+
+
+
 
     public List<Reservation> getReservationList() {
-        return reservationList;
+        return ReservationList;
     }
 
+
     public void setReservationList(List<Reservation> reservationList) {
-        this.reservationList = reservationList;
+        ReservationList = reservationList;
     }
+
+
+
+
+
+    public User(int id, String name, String phoneNumber, String password, List<Reservation> reservationList) {
+        super();
+        Id = id;
+        this.name = name;
+        PhoneNumber = phoneNumber;
+        Password = password;
+        ReservationList = reservationList;
+    }
+
+
+    public User() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+
 }

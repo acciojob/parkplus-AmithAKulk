@@ -1,32 +1,30 @@
 package com.driver.model;
 
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table
 public class Payment {
-    @Id
+    @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private boolean paymentCompleted;
+    private boolean PaymentCompleted;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
 
-    @OneToOne
-    @JoinColumn
-    private Reservation reservation;
+    @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
+    private Reservation reservations;
 
-    public Payment() {
-    }
-
-    public Payment(boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
-        this.paymentCompleted = paymentCompleted;
-        this.paymentMode = paymentMode;
-        this.reservation = reservation;
-    }
+    private boolean paymentcomplete;
 
     public int getId() {
         return id;
@@ -37,11 +35,11 @@ public class Payment {
     }
 
     public boolean isPaymentCompleted() {
-        return paymentCompleted;
+        return paymentcomplete;
     }
 
-    public void setPaymentCompleted(boolean paymentCompleted) {
-        this.paymentCompleted = paymentCompleted;
+    public void setPaymentCompleted(boolean paymentcomplete) {
+        this.paymentcomplete = paymentcomplete;
     }
 
     public PaymentMode getPaymentMode() {
@@ -52,11 +50,27 @@ public class Payment {
         this.paymentMode = paymentMode;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public Reservation getReservations() {
+        return reservations;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setReservations(Reservation reservations) {
+        this.reservations = reservations;
     }
+
+    public Payment(int id, boolean paymentcomplete, PaymentMode paymentMode, Reservation reservations) {
+        super();
+        this.id = id;
+        this.paymentcomplete = paymentcomplete;
+        this.paymentMode = paymentMode;
+        this.reservations = reservations;
+    }
+
+    public Payment() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+
+
 }
