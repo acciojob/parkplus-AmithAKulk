@@ -1,53 +1,45 @@
 package com.driver.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
-@Table
 public class Spot {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
 
     @Enumerated(EnumType.STRING)
     private SpotType spotType;
 
     private int pricePerHour;
 
-    @Column(columnDefinition = "TINYINT(1)")
-    private Boolean occupied;
+    private boolean occupied;
+
 
     @ManyToOne
     @JoinColumn
-    private ParkingLot parkingLot;
+    ParkingLot parkingLot;
 
 
     @OneToMany(mappedBy = "spot",cascade = CascadeType.ALL)
-    private List<Reservation> reservationList=new ArrayList<>();
+    List<Reservation> reservationList = new ArrayList<>();
 
-
-    public Spot(SpotType spotType, int pricePerHour) {
-        this.spotType = spotType;
-        this.pricePerHour = pricePerHour;
-        this.occupied=false;
-    }
 
     public Spot() {
-        this.occupied=false;
+    }
+
+    public Spot(int id, SpotType spotType, int pricePerHour, boolean occupied, ParkingLot parkingLot, List<Reservation> reservationList) {
+        this.id = id;
+        this.spotType = spotType;
+        this.pricePerHour = pricePerHour;
+        this.occupied = occupied;
+        this.parkingLot = parkingLot;
+        this.reservationList = reservationList;
     }
 
     public int getId() {
@@ -74,11 +66,11 @@ public class Spot {
         this.pricePerHour = pricePerHour;
     }
 
-    public Boolean getOccupied() {
+    public boolean getOccupied() {
         return occupied;
     }
 
-    public void setOccupied(Boolean occupied) {
+    public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
 

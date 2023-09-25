@@ -1,18 +1,11 @@
 package com.driver.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 @Entity
-@Table
 public class Reservation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -20,25 +13,28 @@ public class Reservation {
     private int numberOfHours;
 
 
-    @ManyToOne
-    @JoinColumn
-    private User user;
-
-
-    @ManyToOne
-    @JoinColumn
-    private Spot spot;
-
-
     @OneToOne(mappedBy = "reservation",cascade = CascadeType.ALL)
-    private Payment payment;
+    Payment payment;
 
-    public Reservation(int numberOfHours) {
-        this.numberOfHours = numberOfHours;
-    }
+    @ManyToOne
+    @JoinColumn
+    User user;
+
+    @ManyToOne
+    @JoinColumn
+    Spot spot;
 
     public Reservation() {
     }
+
+    public Reservation(int id, int numberOfHours, Payment payment, User user, Spot spot) {
+        this.id = id;
+        this.numberOfHours = numberOfHours;
+        this.payment = payment;
+        this.user = user;
+        this.spot = spot;
+    }
+
 
     public int getId() {
         return id;
@@ -56,6 +52,14 @@ public class Reservation {
         this.numberOfHours = numberOfHours;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     public User getUser() {
         return user;
     }
@@ -71,14 +75,4 @@ public class Reservation {
     public void setSpot(Spot spot) {
         this.spot = spot;
     }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-
 }

@@ -1,30 +1,38 @@
 package com.driver.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 
 @Entity
-@Table
 public class Payment {
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private boolean PaymentCompleted;
+    private boolean paymentCompleted;
+
 
     @Enumerated(EnumType.STRING)
     private PaymentMode paymentMode;
 
-    @OneToOne(mappedBy = "payment",cascade = CascadeType.ALL)
-    private Reservation reservations;
 
-    private boolean paymentcomplete;
+    @OneToOne
+    @JoinColumn
+    Reservation reservation;
+
+
+    public Payment() {
+    }
+
+
+    public Payment(int id, boolean paymentCompleted, PaymentMode paymentMode, Reservation reservation) {
+        this.id = id;
+        this.paymentCompleted = paymentCompleted;
+        this.paymentMode = paymentMode;
+        this.reservation = reservation;
+    }
+
 
     public int getId() {
         return id;
@@ -35,11 +43,11 @@ public class Payment {
     }
 
     public boolean isPaymentCompleted() {
-        return paymentcomplete;
+        return paymentCompleted;
     }
 
-    public void setPaymentCompleted(boolean paymentcomplete) {
-        this.paymentcomplete = paymentcomplete;
+    public void setPaymentCompleted(boolean paymentCompleted) {
+        this.paymentCompleted = paymentCompleted;
     }
 
     public PaymentMode getPaymentMode() {
@@ -50,27 +58,11 @@ public class Payment {
         this.paymentMode = paymentMode;
     }
 
-    public Reservation getReservations() {
-        return reservations;
+    public Reservation getReservation() {
+        return reservation;
     }
 
-    public void setReservations(Reservation reservations) {
-        this.reservations = reservations;
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
     }
-
-    public Payment(int id, boolean paymentcomplete, PaymentMode paymentMode, Reservation reservations) {
-        super();
-        this.id = id;
-        this.paymentcomplete = paymentcomplete;
-        this.paymentMode = paymentMode;
-        this.reservations = reservations;
-    }
-
-    public Payment() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-
-
 }

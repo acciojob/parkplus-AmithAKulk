@@ -1,20 +1,11 @@
 package com.driver.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
 @Entity
-@Table
 public class ParkingLot {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +16,22 @@ public class ParkingLot {
     private String address;
 
 
-    public ParkingLot(String name, String address) {
+    @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
+    List<Spot> spotList = new ArrayList<>();
+
+
+    public ParkingLot(int id, String name, String address, List<Spot> spotList) {
+        this.id = id;
         this.name = name;
         this.address = address;
+        this.spotList = spotList;
     }
 
     public ParkingLot() {
     }
 
-    @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
-    private List<Spot> spotList=new ArrayList<>();
+    public ParkingLot(String name, String address) {
+    }
 
 
     public int getId() {
